@@ -1,0 +1,55 @@
+/* 
+    Document   : datepicker
+    Created on : 18-Sep-2013, 1:38:16 PM
+    Author     : yqjiang
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#datepicker_form {
+    text-align: right;
+    width: 120px;
+    padding-bottom: 130px;
+    font-size: 11px;
+}
+#month_bar {
+    position: relative;
+    text-align: center;
+}
+#next {
+    position: relative;
+    float: right;
+    width: 19px;
+    background-color: #eee;
+    border-radius: 4px;
+}
+#previous {
+    position: relative;
+    float: left;
+    width: 19px;
+    margin-right: 1px;
+    background-color: #eee;
+    margin-bottom: 1px;
+    border-radius: 4px;
+}
+#show_month_year {
+    float: left;
+    text-align: center;
+    background-color: #eee;
+    border-radius: 4px;
+    width: 80px;
+}
+#selector_div {
+    position: relative;
+    float: right;
+    width: 120px;
+    text-align: center;
+    background-color: #eee;
+    text-align: -moz-center;
+    border-radius: 5px;
+}
+td.date_cell {
+    background-color: #fff;
+    border-radius: 3px;
+    text-align: center;
+}

@@ -2,8 +2,10 @@
 <ajxp_plugin name="islandora" label="CONF_MESSAGE[Islandora Integration]" description="CONF_MESSAGE[Ingest files into Islandora]"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../core.ajaxplorer/ajxp_registry.xsd">
     <client_settings>
         <resources>
-            <i18n namespace="action.islandora" path="plugins/action.islandora/i18n"/>
-            <js file="plugins/action.islandora/class.Islandora.js" className="Islandora" autoload="true"/>
+            <i18n namespace="action.sfudora" path="plugins/action.sfudora/i18n"/>
+            <js file="plugins/action.sfudora/class.sfudora.js" className="Islandora" autoload="true"/>
+            <js file="plugins/action.sfudora/class.DatePicker.js" className="DatePicker" autoload="true"/>
+            <css file="plugins/action.sfudora/css/datepicker.css" autoload="true"/>
         </resources>
     </client_settings>
     <server_settings>
@@ -12,7 +14,7 @@
     <registry_contributions>
         <actions>
             <action name="islandora_ingest">
-                <gui text="action.islandora.form_title" title="action.islandora.form_title" src="share.png" iconClass="icon-share" hasAccessKey="false">
+                <gui text="action.sfudora.form_title" title="action.sfudora.form_title" src="share.png" iconClass="icon-share" hasAccessKey="false">
                 <context selection="true" dir="true" recycle="false"
                          actionBar="true" contextMenu="true" infoPanel="false"
                          actionBarGroup="get">
@@ -33,6 +35,12 @@
                                     this.currentFormManager.params,
                                     true
                                );
+                           
+                           var loadFunc = function(oForm){
+                                ajaxplorer.actionBar.datePicker = new DatePicker(oForm);
+                                ajaxplorer.actionBar.datePicker.showDatePicker();
+                            };
+                            modal.showDialogForm('Get', 'islandora_form', loadFunc, null, null, true, true);
 
                        ]]></dialogOnOpen>
                         <dialogOnComplete><![CDATA[
@@ -58,48 +66,51 @@
                     </clientCallback>
                     <clientForm id="islandora_form"><![CDATA[
                          <div id="islandora_form" box_width="800"></div>
+                        <div id="datepicker_div">
+                            <input type="text" name="datepicker" id="datepicker" />
+                        </div>
                     ]]></clientForm>
                     <standardFormDefinition>
-                        <param name="title" group="action.islandora.citation" label="action.islandora.title" description="action.islandora.title_form_description" type="string" mandatory="true"/>
-                        <param name="identification_number" group="action.islandora.citation" replicationGroup="identification_number" label="action.islandora.identification_number" description="action.islandora.identification_number_form_description" type="string" mandatory="true"/>
+                        <param name="title" group="action.sfudora.citation" label="action.sfudora.title" description="action.sfudora.title_form_description" type="string" mandatory="true"/>
+                        <param name="identification_number" group="action.sfudora.citation" replicationGroup="identification_number" label="action.sfudora.identification_number" description="action.sfudora.identification_number_form_description" type="string" mandatory="true"/>
 
-                        <param name="author" group="action.islandora.citation" label="action.islandora.author" description="" type="string" mandatory="true"/>
-                        <param name="other_contributors" group="action.islandora.citation" replicationGroup="other_contributors" label="action.islandora.other_contributors" description="action.islandora.other_contributors_form_description" type="string" mandatory="true"/>
+                        <param name="author" group="action.sfudora.citation" label="action.sfudora.author" description="" type="string" mandatory="true"/>
+                        <param name="other_contributors" group="action.sfudora.citation" replicationGroup="other_contributors" label="action.sfudora.other_contributors" description="action.sfudora.other_contributors_form_description" type="string" mandatory="true"/>
 
-                        <param name="copyright" group="action.islandora.citation" label="action.islandora.copyright" description="action.islandora.copyright_form_description" type="string" mandatory="true"/>
-                        <param name="production_date" group="action.islandora.citation" replicationGroup="production_date" label="action.islandora.production_date" description="action.islandora.production_date_form_description" type="string" mandatory="true"/>
-                        <param name="software" group="action.islandora.citation" replicationGroup="software" label="action.islandora.software" description="" type="string" mandatory="true"/>
-                        <param name="funding_agency" group="action.islandora.citation" replicationGroup="funding_agency" label="action.islandora.funding_agency" description="action.islandora.funding_agency_form_description" type="string" mandatory="true"/>
+                        <param name="copyright" group="action.sfudora.citation" label="action.sfudora.copyright" description="action.sfudora.copyright_form_description" type="string" mandatory="true"/>
+                        <param name="production_date" group="action.sfudora.citation" replicationGroup="production_date" label="action.sfudora.production_date" description="action.sfudora.production_date_form_description" type="string" mandatory="true"/>
+                        <param name="software" group="action.sfudora.citation" replicationGroup="software" label="action.sfudora.software" description="" type="string" mandatory="true"/>
+                        <param name="funding_agency" group="action.sfudora.citation" replicationGroup="funding_agency" label="action.sfudora.funding_agency" description="action.sfudora.funding_agency_form_description" type="string" mandatory="true"/>
 
-                        <param name="collection_details" group="action.islandora.citation" replicationGroup="collection_details" label="action.islandora.collection_details" description="action.islandora.collection_details_form_description" type="string" mandatory="true"/>
+                        <param name="collection_details" group="action.sfudora.citation" replicationGroup="collection_details" label="action.sfudora.collection_details" description="action.sfudora.collection_details_form_description" type="string" mandatory="true"/>
 
-                        <param name="version" group="action.islandora.citation" label="action.islandora.version" description="action.islandora.version_form_description" type="string" mandatory="true"/>
+                        <param name="version" group="action.sfudora.citation" label="action.sfudora.version" description="action.sfudora.version_form_description" type="string" mandatory="true"/>
 
-                        <param name="bibliographical_citation" group="action.islandora.citation" label="action.islandora.bibliographical_citation" description="action.islandora.bibliographical_citation_form_description" type="string" mandatory="true"/>
-                        <param name="additional_information" group="action.islandora.citation" replicationGroup="additional_information" label="action.islandora.additional_information" description="action.islandora.additional_information_form_description" type="string" mandatory="true"/>
+                        <param name="bibliographical_citation" group="action.sfudora.citation" label="action.sfudora.bibliographical_citation" description="action.sfudora.bibliographical_citation_form_description" type="string" mandatory="true"/>
+                        <param name="additional_information" group="action.sfudora.citation" replicationGroup="additional_information" label="action.sfudora.additional_information" description="action.sfudora.additional_information_form_description" type="string" mandatory="true"/>
 
 
-                        <param name="subject" group="action.islandora.study_info" replicationGroup="subject" label="action.islandora.subject" description="" type="string" mandatory="true"/>
-                        <param name="topic_classification" group="action.islandora.study_info" replicationGroup="topic_classification" label="action.islandora.topic_classification" description="action.islandora.topic_classification_form_description" type="string" mandatory="true"/>
+                        <param name="subject" group="action.sfudora.study_info" replicationGroup="subject" label="action.sfudora.subject" description="" type="string" mandatory="true"/>
+                        <param name="topic_classification" group="action.sfudora.study_info" replicationGroup="topic_classification" label="action.sfudora.topic_classification" description="action.sfudora.topic_classification_form_description" type="string" mandatory="true"/>
 
-                        <param name="abstract" group="action.islandora.study_info" replicationGroup="abstract" label="action.islandora.abstract" description="action.islandora.abstract_form_description" type="string" mandatory="true"/>
+                        <param name="abstract" group="action.sfudora.study_info" replicationGroup="abstract" label="action.sfudora.abstract" description="action.sfudora.abstract_form_description" type="string" mandatory="true"/>
 
-                        <param name="time_period" group="action.islandora.study_info" replicationGroup="time_period" label="action.islandora.time_period" description="action.islandora.time_period_form_description" type="string" mandatory="true"/>
-                        <param name="collection_date" group="action.islandora.study_info" replicationGroup="collection_date" label="action.islandora.collection_date" description="action.islandora.collection_date_form_description" type="string" mandatory="true"/>
-                        <param name="geographic_coverage" group="action.islandora.study_info" replicationGroup="geographic_coverage" label="action.islandora.geographic_coverage" description="action.islandora.geographic_coverage_form_description" type="string" mandatory="true"/>
-                        <param name="data_type" group="action.islandora.study_info" replicationGroup="data_type" label="action.islandora.data_type" description="action.islandora.data_type_form_description" type="string" mandatory="true"/>
+                        <param name="time_period" group="action.sfudora.study_info" replicationGroup="time_period" label="action.sfudora.time_period" description="action.sfudora.time_period_form_description" type="string" mandatory="true"/>
+                        <param name="collection_date" group="action.sfudora.study_info" replicationGroup="collection_date" label="action.sfudora.collection_date" description="action.sfudora.collection_date_form_description" type="string" mandatory="true"/>
+                        <param name="geographic_coverage" group="action.sfudora.study_info" replicationGroup="geographic_coverage" label="action.sfudora.geographic_coverage" description="action.sfudora.geographic_coverage_form_description" type="string" mandatory="true"/>
+                        <param name="data_type" group="action.sfudora.study_info" replicationGroup="data_type" label="action.sfudora.data_type" description="action.sfudora.data_type_form_description" type="string" mandatory="true"/>
 
-                        <param name="collection_method" group="action.islandora.method" replicationGroup="collection_method" label="action.islandora.collection_method" description="action.islandora.collection_method_form_description" type="string" mandatory="true"/>
-                        <param name="sources" group="action.islandora.method" replicationGroup="sources" label="action.islandora.sources" description="action.islandora.sources_form_description" type="string" mandatory="true"/>
+                        <param name="collection_method" group="action.sfudora.method" replicationGroup="collection_method" label="action.sfudora.collection_method" description="action.sfudora.collection_method_form_description" type="string" mandatory="true"/>
+                        <param name="sources" group="action.sfudora.method" replicationGroup="sources" label="action.sfudora.sources" description="action.sfudora.sources_form_description" type="string" mandatory="true"/>
 
-                        <param name="embargo" group="action.islandora.data_access" label="action.islandora.embargo" description="action.islandora.embargo_form_description" type="string" mandatory="true"/>
-                        <param name="confidentiality_declaration" group="action.islandora.data_access" label="action.islandora.confidentiality_declaration" description="action.islandora.confidentiality_declaration_form_description" type="string" mandatory="true"/>
-                        <param name="access" group="action.islandora.data_access" label="action.islandora.access" description="action.islandora.access_form_description" type="string" mandatory="true"/>
+                        <param name="embargo" group="action.sfudora.data_access" label="action.sfudora.embargo" description="action.sfudora.embargo_form_description" type="string" mandatory="true"/>
+                        <param name="confidentiality_declaration" group="action.sfudora.data_access" label="action.sfudora.confidentiality_declaration" description="action.sfudora.confidentiality_declaration_form_description" type="string" mandatory="true"/>
+                        <param name="access" group="action.sfudora.data_access" label="action.sfudora.access" description="action.sfudora.access_form_description" type="string" mandatory="true"/>
 
-                        <param name="file_type" group="action.islandora.file_description" label="action.islandora.file_type" description="action.islandora.file_type_form_description" type="string" mandatory="true"/>
-                        <param name="format_description" group="action.islandora.file_description" label="action.islandora.format_description" description="action.islandora.format_description_form_description" type="string" mandatory="true"/>
+                        <param name="file_type" group="action.sfudora.file_description" label="action.sfudora.file_type" description="action.sfudora.file_type_form_description" type="string" mandatory="true"/>
+                        <param name="format_description" group="action.sfudora.file_description" label="action.sfudora.format_description" description="action.sfudora.format_description_form_description" type="string" mandatory="true"/>
 
-                        <param name="other_materials" group="action.islandora.other_materials" replicationGroup="other_materials" label="action.islandora.other_materials" description="action.islandora.other_materials_form_description" type="string" mandatory="true"/>
+                        <param name="other_materials" group="action.sfudora.other_materials" replicationGroup="other_materials" label="action.sfudora.other_materials" description="action.sfudora.other_materials_form_description" type="string" mandatory="true"/>
 
                     </standardFormDefinition>
                     <serverCallback methodName="switchAction"></serverCallback>
@@ -107,5 +118,5 @@
             </action>
         </actions>
     </registry_contributions>
-    <class_definition filename="plugins/action.islandora/class.Islandora.php" classname="Islandora"/>
+    <class_definition filename="plugins/action.sfudora/class.Islandora.php" classname="Islandora"/>
 </ajxp_plugin>

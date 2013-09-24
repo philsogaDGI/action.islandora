@@ -35,13 +35,6 @@
                                     this.currentFormManager.params,
                                     true
                                );
-                           
-                           var loadFunc = function(oForm){
-                                ajaxplorer.actionBar.datePicker = new DatePicker(oForm);
-                                ajaxplorer.actionBar.datePicker.showDatePicker();
-                            };
-                            modal.showDialogForm('Get', 'islandora_form', loadFunc, null, null, true, true);
-
                        ]]></dialogOnOpen>
                         <dialogOnComplete><![CDATA[
                              var values = new Hash({});
@@ -60,15 +53,10 @@
                                 var res = ajaxplorer.actionBar.parseXmlMessage(transport.responseXML);
                                 if(res) hideLightBox();
                             };
-
-
                     ]]></dialogOnComplete>
                     </clientCallback>
                     <clientForm id="islandora_form"><![CDATA[
                          <div id="islandora_form" box_width="800"></div>
-                        <div id="datepicker_div">
-                            <input type="text" name="datepicker" id="datepicker" />
-                        </div>
                     ]]></clientForm>
                     <standardFormDefinition>
                         <param name="title" group="action.sfudora.citation" label="action.sfudora.title" description="action.sfudora.title_form_description" type="string" mandatory="true"/>

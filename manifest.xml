@@ -106,5 +106,5 @@
             </action>
         </actions>
     </registry_contributions>
-    <class_definition filename="plugins/action.sfudora/class.Islandora.php" classname="Islandora"/>
+    <class_definition filename="plugins/action.sfudora/class.sfudora.php" classname="Islandora"/>
 </ajxp_plugin>
